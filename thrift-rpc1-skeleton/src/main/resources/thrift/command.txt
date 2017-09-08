@@ -8,6 +8,16 @@ thrift-0.9.3.exe -o service -gen java idl/team/teamInfo.thrift
 thrift-0.9.3.exe -o service -gen java idl/team/team.thrift
 
 
+cd F:\SysWork\openSource\thrift\install
+F:
+thrift-0.9.3.exe -o service -gen java idl/coupon/coupon.thrift
+thrift-0.9.3.exe -o service -gen java idl/coupon/couponInfo.thrift
+
+cd F:\SysWork\openSource\thrift\install
+F:
+thrift-0.9.3.exe -o service -gen java idl/order/order.thrift
+thrift-0.9.3.exe -o service -gen java idl/order/OrderInfo.thrift
+
 
 
 

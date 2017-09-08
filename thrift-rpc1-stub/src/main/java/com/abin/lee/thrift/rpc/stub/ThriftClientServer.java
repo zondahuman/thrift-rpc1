@@ -1,9 +1,13 @@
 package com.abin.lee.thrift.rpc.stub;
 
+import com.abin.lee.thrift.rpc.api.CouponService;
+import com.abin.lee.thrift.rpc.api.OrderService;
 import com.abin.lee.thrift.rpc.api.TeamService;
 import com.abin.lee.thrift.rpc.common.util.JsonUtil;
 import com.abin.lee.thrift.rpc.enums.BusinessRoleEnum;
 import com.abin.lee.thrift.rpc.model.Business;
+import com.abin.lee.thrift.rpc.model.CouponInfo;
+import com.abin.lee.thrift.rpc.model.OrderInfo;
 import com.abin.lee.thrift.rpc.model.TeamInfo;
 import com.abin.lee.thrift.rpc.stub.callback.StubCallback;
 import org.apache.thrift.TException;
@@ -31,9 +35,9 @@ public class ThriftClientServer {
 
     public static void main(String[] args) throws TException, InterruptedException {
         //synchronous
-//        main_sync();
+        main_sync();
         //asynchronous
-        main_async();
+//        main_async();
     }
 
 
@@ -44,12 +48,16 @@ public class ThriftClientServer {
         TMultiplexedProtocol teamProtocol = new TMultiplexedProtocol(protocol, "TeamService");
         TeamService.Client teamService = new TeamService.Client(teamProtocol);
 
-//        TMultiplexedProtocol mp2 = new TMultiplexedProtocol(protocol,"UserService");
-//        UserService.Client service2 = newUserService.Client(mp2);
+        TMultiplexedProtocol orderProtocol = new TMultiplexedProtocol(protocol,"OrderService");
+        OrderService.Client orderService = new OrderService.Client(orderProtocol);
+
+        TMultiplexedProtocol couponProtocol = new TMultiplexedProtocol(protocol,"CouponService");
+        CouponService.Client couponService = new CouponService.Client(couponProtocol);
 
         transport.open();
 
         //------------------------------------TeamService----------------------------------------------
+        System.out.println("------------------------------------TeamService----------------------------------------------start-----");
         List<TeamInfo> teamInfoList = teamService.findTeamListById(5L);
         System.out.println("teamInfoList= : " + JsonUtil.toJson(teamInfoList));
         TeamInfo teamInfo = teamService.findTeamById(5L);
@@ -72,11 +80,27 @@ public class ThriftClientServer {
 
         Business businessResult = teamService.findBusinessByBid(5L);
         System.out.println("businessResult= : " + businessResult);
+        System.out.println("------------------------------------TeamService----------------------------------------------end-----");
         //------------------------------------TeamService----------------------------------------------
 
+        //------------------------------------OrderService----------------------------------------------
+        System.out.println("------------------------------------OrderService----------------------------------------------start-----");
+        List<Long> orderList = orderService.findById(5L);
+        System.out.println("orderList= : " + JsonUtil.toJson(orderList));
+        OrderInfo orderInfo = orderService.findOrderById(5L);
+        System.out.println("orderInfo= : " + JsonUtil.toJson(orderInfo));
+        System.out.println("------------------------------------OrderService----------------------------------------------end-----");
+        //------------------------------------OrderService----------------------------------------------
 
-//        service2.store1(new User(888,"tom","haha"));
-//        System.out.println(service2.retrieve1(999));
+        //------------------------------------OrderService----------------------------------------------
+        System.out.println("------------------------------------CouponService----------------------------------------------start-----");
+        List<Long> couponList = couponService.findById(5L);
+        System.out.println("couponList= : " + JsonUtil.toJson(couponList));
+        CouponInfo couponInfo = couponService.findCouponById(5L);
+        System.out.println("couponInfo= : " + JsonUtil.toJson(couponInfo));
+        System.out.println("------------------------------------CouponService----------------------------------------------end-----");
+        //------------------------------------OrderService----------------------------------------------
+
 
         transport.close();
     }
